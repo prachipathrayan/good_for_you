@@ -6,11 +6,11 @@ import config from "../index";
 
 export class AxiosConfig implements IAxiosConfig{
     private static key : string = config.key;
-    async videoInstance(id : string): Promise< any |Error>{
+    async videoInstanceForNextPage(id : string, pageToken: string): Promise< any |Error>{
         let err: Error;
         let res: any;
         // eslint-disable-next-line max-len
-        [err, res]= await nest(axios.get(`https://www.googleapis.com/youtube/v3/search?order=date&part=snippet&channelId=${id}&maxResults=25&key=${AxiosConfig.key}&pageToken=${AxiosConfig.key}`));
+        [err, res]= await nest(axios.get(`https://www.googleapis.com/youtube/v3/search?order=date&part=snippet&channelId=${id}&maxResults=25&key=${AxiosConfig.key}&pageToken=${pageToken}`));
         if(err){
             logger.error('Error in getting response',{error: err});
             throw new Error('Error in getting response');
@@ -18,7 +18,18 @@ export class AxiosConfig implements IAxiosConfig{
         return res.data;
 
     }
+    async videoInstance(id : string): Promise< any |Error>{
+        let err: Error;
+        let res: any;
+        // eslint-disable-next-line max-len
+        [err, res]= await nest(axios.get(`https://www.googleapis.com/youtube/v3/search?order=date&part=snippet&channelId=${id}&maxResults=25&key=${AxiosConfig.key}`));
+        if(err){
+            logger.error('Error in getting response',{error: err});
+            throw new Error('Error in getting response');
+        }
+        return res.data;
 
+    }
     async channelInstance(username : string): Promise< any |Error>{
         let err: Error;
         let res: any;
