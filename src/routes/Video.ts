@@ -3,6 +3,7 @@ import {nest} from "../utils";
 import logger from '@shared/Logger';
 import {VideoService} from "../services/videoService";
 import {IVideoDetails} from "../services/videoService/types";
+import {_json} from "../types";
 
 const router = Router();
 
@@ -34,8 +35,16 @@ router.get('/:id/getVideoType', async (req, res)=>{
         logger.error('Router Problem');
         throw new Error('Router Problem');
     }
+    let contentPercentage : _json;
+    let error : Error;
+    [error , contentPercentage]= await nest(videoService.getContentPercentage());
+    if(error){
+        logger.error('error in getContentPercentage', {error : error});
+        throw new Error('error in getContentPercentage');
+    }
     return res.json({
         APIType: 'Video Details with flag',
+        contentPercentage: contentPercentage,
         data: videoItem,
         error: null
 

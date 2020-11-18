@@ -3,6 +3,7 @@ import {_json} from "../../types";
 export interface IVideoService{
     getVideo(id : string): Promise<any | Error>;
     getFlaggedVideo(id : string): Promise<IVideoDetailsWithFlag[] | Error>;
+    getContentPercentage(): Promise<_json>;
 }
 
 export type IVideoDetails={
@@ -15,9 +16,4 @@ export type IVideoDetails={
 export type IVideoDetailsWithFlag={
     videoDetail: IVideoDetails,
     flag: string,
-}
-
-export type IVideoDescriptionDetails={
-    title: string,
-    description: string,
 }

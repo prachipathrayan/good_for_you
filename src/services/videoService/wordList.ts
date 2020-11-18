@@ -79,6 +79,14 @@ export let keywords = [
     "Against Vaccine Nationalism",
     "Poor Working Conditions",
     "AYUSH Doctors Strike",
-    ""
+    "press freedom",
+    "bjp vs shiv sena",
+    "Shiv Sena-BJP fight",
+    "Sudhir Chaudhary Supports Arnab Goswami",
+    "i support arnab",
+    "Government of India",
+    "freedom of expression",
 ];
+
+
 

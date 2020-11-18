@@ -56,6 +56,8 @@ export class VideoService implements IVideoService{
     }
 
     private listOfVideosWithFlag = new Array<IVideoDetailsWithFlag>();
+    private countAntiOpposition : number = 0;
+    private countAntiGovernment : number = 0;
 
     async getFlaggedVideo(id : string): Promise<IVideoDetailsWithFlag[] | Error>{
         let error:Error;
@@ -74,13 +76,16 @@ export class VideoService implements IVideoService{
                 [notRes,res]=await nest(this.searchKeywords(item.snippet.description));
                 if(!res){
                     flag="anti-opposition";
+                    this.countAntiOpposition++;
                 }
                 else{
                     flag="anti-government";
+                    this.countAntiGovernment++;
                 }
             }
             else{
                 flag="anti-government";
+                this.countAntiGovernment++;
             }
             this.listOfVideosWithFlag.push({
                 videoDetail: item,
@@ -88,6 +93,16 @@ export class VideoService implements IVideoService{
             })
         }
         return this.listOfVideosWithFlag;
+    }
+
+    async getContentPercentage(): Promise<_json>{
+        const percentageOfAntiGovernmentContent : number = (this.countAntiGovernment/(this.countAntiGovernment+this.countAntiOpposition))*100;
+        const percentageOfAntiOppositionContent : number = 100 - percentageOfAntiGovernmentContent;
+        let countList : _json = {
+            "antiGovernmentContent" : percentageOfAntiGovernmentContent,
+            "antiOppositionContent" : percentageOfAntiOppositionContent,
+        }
+        return countList;
     }
 
     async searchKeywords (stringToBeSearched : string): Promise<RegExpMatchArray | null> {
