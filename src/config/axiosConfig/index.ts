@@ -10,7 +10,7 @@ export class AxiosConfig implements IAxiosConfig{
         let err: Error;
         let res: any;
         // eslint-disable-next-line max-len
-        [err, res]= await nest(axios.get(`https://www.googleapis.com/youtube/v3/search?order=date&part=snippet&channelId=${id}&maxResults=25&key=${AxiosConfig.key}&pageToken=${pageToken}`));
+        [err, res]= await nest(axios.get(`https://www.googleapis.com/youtube/v3/search?order=date&part=snippet&channelId=${id}&maxResults=50&key=${AxiosConfig.key}&pageToken=${pageToken}`));
         if(err){
             logger.error('Error in getting response',{error: err});
             throw new Error('Error in getting response');
@@ -22,7 +22,7 @@ export class AxiosConfig implements IAxiosConfig{
         let err: Error;
         let res: any;
         // eslint-disable-next-line max-len
-        [err, res]= await nest(axios.get(`https://www.googleapis.com/youtube/v3/search?order=date&part=snippet&channelId=${id}&maxResults=25&key=${AxiosConfig.key}`));
+        [err, res]= await nest(axios.get(`https://www.googleapis.com/youtube/v3/search?order=date&part=snippet&channelId=${id}&maxResults=50&key=${AxiosConfig.key}`));
         if(err){
             logger.error('Error in getting response',{error: err});
             throw new Error('Error in getting response');

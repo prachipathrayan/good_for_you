@@ -1,8 +1,9 @@
 import { nest } from '../../utils';
 import logger from '@shared/Logger';
-import {IVideoDetails, IVideoService} from './types';
+import {IVideoDetails, IVideoDetailsWithFlag, IVideoService} from './types';
 import {AxiosConfig} from "../../config/axiosConfig";
 import {_json} from "../../types";
+import {keywords} from "./wordList";
 
 export class VideoService implements IVideoService{
 
@@ -16,16 +17,7 @@ export class VideoService implements IVideoService{
 
     private listOfVideos = new Array<IVideoDetails>();
     private axiosService= new AxiosConfig();
-    // async getChannel(): Promise<any | Error>{
-    //     let err: Error;
-    //     let res: any;
-    //     [err, res] = await nest(channelInstance());
-    //     if (err) {
-    //         logger.error('Error in fetching data for the function', {error: err});
-    //         throw new Error('Error in fetching data for the function');
-    //     }
-    //     return res;
-    // }
+
     async getVideo(id : string): Promise<IVideoDetails[] | Error> {
         let err: Error;
         let res: any;
@@ -61,5 +53,47 @@ export class VideoService implements IVideoService{
                 snippet: item.snippet,
             });
         });
+    }
+
+    private listOfVideosWithFlag = new Array<IVideoDetailsWithFlag>();
+
+    async getFlaggedVideo(id : string): Promise<IVideoDetailsWithFlag[] | Error>{
+        let error:Error;
+        let videoList:IVideoDetails[];
+        [error, videoList]=await nest(this.getVideo(id));
+        if(error){
+            logger.error('Error in fetching videos',{error: error});
+            throw new Error('Error in fetching videos');
+        }
+        for (const item of videoList) {
+            let res: RegExpMatchArray;
+            let notRes:null;
+            let flag:string;
+            [notRes,res]= await nest(this.searchKeywords(item.snippet.title));
+            if(!res){
+                [notRes,res]=await nest(this.searchKeywords(item.snippet.description));
+                if(!res){
+                    flag="anti-opposition";
+                }
+                else{
+                    flag="anti-government";
+                }
+            }
+            else{
+                flag="anti-government";
+            }
+            this.listOfVideosWithFlag.push({
+                videoDetail: item,
+                flag: flag,
+            })
+        }
+        return this.listOfVideosWithFlag;
+    }
+
+    async searchKeywords (stringToBeSearched : string): Promise<RegExpMatchArray | null> {
+        let keys = keywords
+        let re = new RegExp('(' + keys.join('|') + ')', 'g')
+
+        return stringToBeSearched.toLowerCase().match(re)
     }
 }
