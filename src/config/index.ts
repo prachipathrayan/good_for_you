@@ -1,7 +1,8 @@
 const configObject = {
-    key : "AIzaSyBOWXcNObYBaCBI36lqaRvQLNMfLVG42J4",
+    //key : process.env.KEY,
+    key : 'AIzaSyBOWXcNObYBaCBI36lqaRvQLNMfLVG42J4',
 };
 // Todo Joi validation
-const APIKeyConfig : Readonly<{ key: string }>= Object.freeze(configObject);
+const APIKeyConfig = Object.freeze(configObject);
 
 export default APIKeyConfig;

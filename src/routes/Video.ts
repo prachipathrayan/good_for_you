@@ -1,6 +1,6 @@
 import { Request, Response, Router } from 'express';
 import {nest} from "../utils";
-import logger from '@shared/Logger';
+import logger from '../utils/Logger';
 import {VideoService} from "../services/videoService";
 import {IVideoDetails} from "../services/videoService/types";
 import {_json} from "../types";

@@ -1,5 +1,5 @@
 import { nest } from '../../utils';
-import logger from '@shared/Logger';
+import logger from '../../utils/Logger';
 import {IVideoDetails, IVideoDetailsWithFlag, IVideoService} from './types';
 import {AxiosConfig} from "../../config/axiosConfig";
 import {_json} from "../../types";
@@ -29,7 +29,7 @@ export class VideoService implements IVideoService{
         }
         this.addVideoDetails(res);
         pageToken = res.nextPageToken;
-        while (1) {
+        while (pageToken != null) {
             [err, res] = await nest(this.axiosService.videoInstanceForNextPage(id, pageToken));
             if (err) {
                 logger.error('Error in fetching data for the function', {error: err});
@@ -37,10 +37,8 @@ export class VideoService implements IVideoService{
             }
             this.addVideoDetails(res);
             pageToken = res.nextPageToken;
-            if (pageToken == null) {
-                break;
-            }
         }
+
         return this.listOfVideos;
     }
 

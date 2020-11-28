@@ -9,7 +9,7 @@ import StatusCodes from 'http-status-codes';
 import 'express-async-errors';
 
 import BaseRouter from './routes';
-import logger from '@shared/Logger';
+import logger from '../src/utils/Logger';
 
 const app = express();
 const { BAD_REQUEST } = StatusCodes;
