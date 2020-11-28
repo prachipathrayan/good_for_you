@@ -1,4 +1,4 @@
-import logger from '../utils/Logger';
+import logger from '../utils/logger';
 
 export const pErr = (err: Error) => {
     if (err) {

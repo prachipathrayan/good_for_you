@@ -1,6 +1,6 @@
 import {nest} from "../../utils";
 import axios from "axios";
-import logger from "../../utils/Logger";
+import logger from "../../utils/logger";
 import {IAxiosConfig} from "./types";
 import APIKeyConfig from "../index";
 import {_json} from "../../types";

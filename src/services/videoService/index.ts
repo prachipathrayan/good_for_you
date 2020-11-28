@@ -1,5 +1,5 @@
 import { nest } from '../../utils';
-import logger from '../../utils/Logger';
+import logger from '../../utils/logger';
 import {IVideoDetails, IVideoDetailsWithFlag, IVideoService} from './types';
 import {AxiosConfig} from "../../config/axiosConfig";
 import {_json} from "../../types";
